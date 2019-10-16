@@ -1,7 +1,8 @@
 console.log('%c HI', 'color: firebrick')
 
+
 document.addEventListener('load', getPhotos());
-document.addEventListener('load', getBreeds())
+document.addEventListener('load', getBreeds());
 
 function getPhotos() {
     fetch("https://dog.ceo/api/breeds/image/random/4")
@@ -10,11 +11,11 @@ function getPhotos() {
 };
 
 function showPhotos(json){
+    const imageContainer = document.getElementById('dog-image-container');
     json.message.forEach(photo => {
-        const ul = document.getElementById('dog-breeds')
         let li = document.createElement('li')
-        li.innerHTML = `<img src="${photo}">`
-        ul.appendChild(li)
+        li.innerHTML = `<img src="${photo}">`;
+        imageContainer.appendChild(li);
     })
 };
 
@@ -24,6 +25,14 @@ function getBreeds() {
     .then(json => listBreeds(json))
 };
 
-function listBreeds(json){
-    
+
+function listBreeds(json) {
+   const ul = document.getElementById('dog-breeds');
+
+    Object.keys(json.message).forEach(breed => {
+      let li = document.createElement('li');
+      li.innerText = `${breed}`;
+      ul.appendChild(li);
+    })
 }
+
