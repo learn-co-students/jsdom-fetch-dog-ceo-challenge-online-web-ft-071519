@@ -4,6 +4,8 @@ console.log('%c HI', 'color: firebrick')
 document.addEventListener('load', getPhotos());
 document.addEventListener('load', getBreeds());
 
+
+
 function getPhotos() {
     fetch("https://dog.ceo/api/breeds/image/random/4")
     .then(resp => resp.json())
@@ -33,6 +35,9 @@ function listBreeds(json) {
       let li = document.createElement('li');
       li.innerText = `${breed}`;
       ul.appendChild(li);
+      li.addEventListener('click', () => {
+          li.style.color = "pink";
+      })
     })
 }
 
