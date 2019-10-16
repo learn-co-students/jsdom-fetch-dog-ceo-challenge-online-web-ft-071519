@@ -1,43 +1,38 @@
-console.log('%c HI', 'color: firebrick')
-
-
-document.addEventListener('load', getPhotos());
-document.addEventListener('load', getBreeds());
-
-
+document.addEventListener("DOMContentLoaded", getPhotos())
+document.addEventListener("DOMContentLoaded", getBreeds())
 
 function getPhotos() {
-    fetch("https://dog.ceo/api/breeds/image/random/4")
-    .then(resp => resp.json())
-    .then(json => showPhotos(json))
+    fetch('https://dog.ceo/api/breeds/image/random/4')
+    .then(response => response.json())
+    .then(json => renderPhotos(json))
 };
 
-function showPhotos(json){
-    const imageContainer = document.getElementById('dog-image-container');
-    json.message.forEach(photo => {
-        let li = document.createElement('li')
-        li.innerHTML = `<img src="${photo}">`;
-        imageContainer.appendChild(li);
+function renderPhotos(json) {
+    const photoDiv = document.getElementById('dog-image-container');
+    const photoList = document.createElement('ul');
+    photoDiv.appendChild(photoList)
+    json.message.forEach(photoURL => {
+      let photo = document.createElement('li');
+      photo.innerHTML = `<img src="${photoURL}">`
+      photoList.appendChild(photo)
     })
 };
 
 function getBreeds() {
     fetch('https://dog.ceo/api/breeds/list/all')
-    .then(resp => resp.json())
-    .then(json => listBreeds(json))
-};
+    .then(response => response.json())
+    .then(json => renderBreeds(json))
+}
 
-
-function listBreeds(json) {
-   const ul = document.getElementById('dog-breeds');
-
+function renderBreeds(json) {
+    const breedList = document.getElementById('dog-breeds');
     Object.keys(json.message).forEach(breed => {
       let li = document.createElement('li');
-      li.innerText = `${breed}`;
-      ul.appendChild(li);
+      li.id = `${breed}`
+      li.innerText = `${breed}`
       li.addEventListener('click', () => {
           li.style.color = "pink";
       })
+      breedList.appendChild(li)
     })
-}
-
+};
