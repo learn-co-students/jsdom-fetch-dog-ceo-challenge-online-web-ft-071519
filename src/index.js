@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Seeing if this hot reloads");
     fetchDogs();
     fetchBreeds();
     filterDogs();
