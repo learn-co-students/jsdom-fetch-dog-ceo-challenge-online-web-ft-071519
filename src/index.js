@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
   dropdownFilter();
 })
 
-
 // Add dog images
 const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
 
@@ -28,7 +27,7 @@ function imageFetch() {
 // add dog breeds
 const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 
-function breedFetch() {
+function breedFetch(filter = "") {
   fetch(breedUrl)
   .then(function(response) {
     return response.json();
@@ -36,10 +35,24 @@ function breedFetch() {
   .then(function(json) {
     const breedsHash = json.message
     const breeds = Object.keys(breedsHash)
+    document.getElementById("dog-breeds").innerHTML = ""
+
     breeds.forEach(breed => {
-      let li = document.createElement('li'); 
-      li.innerHTML = breed
-      document.getElementById("dog-breeds").appendChild(li);
+      if (filter && breed.startsWith(filter)) {
+        let li = document.createElement('li'); 
+        li.innerHTML = breed
+        li.addEventListener("click",function() {
+         li.style.color = "red"
+        })
+        document.getElementById("dog-breeds").appendChild(li);
+      } else if (!filter) {
+        let li = document.createElement('li'); 
+        li.innerHTML = breed
+        li.addEventListener("click",function() {
+         li.style.color = "red"
+        })
+        document.getElementById("dog-breeds").appendChild(li);
+      }      
     })
   })
 }
@@ -49,25 +62,20 @@ function breedColor() {
   const items = Array.from(document.getElementsByTagName("li"));
 
   items.forEach(item => {
-    console.log(item)
     item.onclick = function() {
-        console.log("clicked a breed!");
         item.style.color = "red";
       }
     })
 }
 
 // dropdown functionality
+
 function dropdownFilter() {
   const dropdown = document.getElementById("breed-dropdown")
-  let selectedValue = dropdown.options[dropdown.selectedIndex].value
-  if (selectedValue == "a") {
-    document.getElementById("dog-breeds").innerHTML
-  } else if (selectedValue == "b") {
+  const liItems = document.getElementsByTagName("li");
 
-  } else if (selectedValue == "c") {
-
-  } else {
-
-  } 
+  dropdown.addEventListener("click", function(e) {
+    filter  = e.target.value
+    breedFetch(filter) 
+  })
 }
